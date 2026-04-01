@@ -502,8 +502,8 @@
                         return row.c[index] && row.c[index].v ? String(row.c[index].v) : '';
                     };
                     
-                    const merchant = getValue(2);
-                    const priceStr = getValue(4);
+                    const merchant = getValue(1);
+                    const priceStr = getValue(3);
                     
                     if (!merchant || !priceStr) continue;
                     
@@ -512,12 +512,12 @@
                     
                     newItems.push({
                         merchant: merchant,
-                        itemName: getValue(5) || `${merchant} Item`,
+                        itemName: getValue(4) || `${merchant} Item`,
                         price: price,
-                        color: getValue(7) || '',
-                        size: getValue(8) || '',
-                        sku: getValue(6) || '',
-                        purchaseDate: getValue(3) || '',
+                        color: getValue(6) || '',
+                        size: getValue(7) || '',
+                        sku: getValue(5) || '',
+                        purchaseDate: getValue(2) || '',
                         category: 'Other',
                         imageUrl: ''
                     });
