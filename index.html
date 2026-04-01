@@ -606,7 +606,7 @@
             if (!isDuplicate) {
                 items.push(item);
                 try {
-                    await window.storage.set(`item:${Date.now()}`, JSON.stringify(item));
+                     window.storage.set(`item:${Date.now()}`, JSON.stringify(item));
                 } catch (error) {
                     console.error('Storage error:', error);
                 }
@@ -616,11 +616,11 @@
 
         function loadItems() {
             try {
-                const result = await window.storage.list('item:');
+                const result =  window.storage.list('item:');
                 if (result && result.keys && result.keys.length > 0) {
                     items = [];
                     for (const key of result.keys) {
-                        const itemResult = await window.storage.get(key);
+                        const itemResult =  window.storage.get(key);
                         if (itemResult && itemResult.value) {
                             items.push(JSON.parse(itemResult.value));
                         }
@@ -739,14 +739,14 @@
                 items.splice(index, 1);
                 
                 try {
-                    const result = await window.storage.list('item:');
+                    const result =  window.storage.list('item:');
                     if (result && result.keys) {
                         for (const key of result.keys) {
-                            const itemResult = await window.storage.get(key);
+                            const itemResult =  window.storage.get(key);
                             if (itemResult && itemResult.value) {
                                 const storedItem = JSON.parse(itemResult.value);
                                 if (JSON.stringify(storedItem) === JSON.stringify(item)) {
-                                    await window.storage.delete(key);
+                                     window.storage.delete(key);
                                     break;
                                 }
                             }
