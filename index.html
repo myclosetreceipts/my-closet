@@ -247,12 +247,6 @@
             border-color: rgba(255, 195, 113, 0.3);
         }
 
-        .item-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
         .item-image-placeholder {
             width: 100%;
             height: 250px;
@@ -330,27 +324,6 @@
             letter-spacing: 1px;
         }
 
-        .delete-btn {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 71, 87, 0.9);
-            color: white;
-            border: none;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: transform 0.2s;
-            font-weight: bold;
-        }
-
-        .delete-btn:hover {
-            transform: scale(1.1);
-            background: #ff4757;
-        }
-
         .empty-state {
             text-align: center;
             padding: 100px 20px;
@@ -393,101 +366,6 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1a1a1a;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .modal-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: #ffc371;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #ccc;
-        }
-
-        .form-input, .form-select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: #fff;
-            font-size: 1em;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .form-input:focus, .form-select:focus {
-            outline: none;
-            border-color: #ffc371;
-        }
-
-        .form-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ffc371 100%);
-            color: #fff;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -497,7 +375,7 @@
             <p class="subtitle">Your Automated Wardrobe</p>
             <div class="auto-badge">
                 <span class="pulse-dot"></span>
-                <span>Auto-Updates Enabled</span>
+                <span id="syncStatus">Auto-syncing...</span>
             </div>
         </header>
 
@@ -506,107 +384,90 @@
         <div class="controls">
             <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search your closet...">
             <div class="category-tabs" id="categoryTabs"></div>
-            <button class="add-btn" onclick="openAddModal()">+ Add Item</button>
         </div>
 
         <div class="items-grid" id="itemsGrid"></div>
     </div>
 
-    <div class="modal" id="addModal">
-        <div class="modal-content">
-            <h2 class="modal-title">Add New Item</h2>
-            <form id="addItemForm">
-                <div class="form-group">
-                    <label class="form-label">Store/Merchant</label>
-                    <input type="text" class="form-input" id="merchant" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Item Name</label>
-                    <input type="text" class="form-input" id="itemName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Category</label>
-                    <select class="form-select" id="category" required>
-                        <option value="Tops">Tops</option>
-                        <option value="Bottoms">Bottoms</option>
-                        <option value="Dresses">Dresses</option>
-                        <option value="Outerwear">Outerwear</option>
-                        <option value="Shoes">Shoes</option>
-                        <option value="Accessories">Accessories</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Price</label>
-                    <input type="number" step="0.01" class="form-input" id="price" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Color</label>
-                    <input type="text" class="form-input" id="color">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Size</label>
-                    <input type="text" class="form-input" id="size">
-                </div>
-
-                <div class="form-buttons">
-                    <button type="button" class="btn btn-secondary" onclick="closeAddModal()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Item</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
+        const SHEET_ID = '18tBYQ1f65Frly3ZDJnOmLuK_tcmr29qAehFHxPqR0Ow';
         let items = [];
         let currentCategory = 'All';
         let searchTerm = '';
+        let lastSyncedCount = 0;
 
-        // Check URL parameters for new item from Zapier
-        function checkUrlParams() {
-            const urlParams = new URLSearchParams(window.location.search);
-            
-            if (urlParams.has('merchant')) {
-                const newItem = {
-                    merchant: urlParams.get('merchant') || '',
-                    itemName: urlParams.get('itemName') || urlParams.get('item_name') || 'New Item',
-                    category: urlParams.get('category') || 'Other',
-                    price: parseFloat(urlParams.get('price') || urlParams.get('total') || 0),
-                    color: urlParams.get('color') || '',
-                    size: urlParams.get('size') || '',
-                    sku: urlParams.get('sku') || '',
-                    purchaseDate: urlParams.get('purchaseDate') || urlParams.get('purchase_date') || '',
-                    imageUrl: ''
-                };
-
-                if (newItem.price > 0) {
-                    addItem(newItem);
-                    showNotification('New item added from email! 🎉');
+        async function syncFromSheet() {
+            try {
+                document.getElementById('syncStatus').textContent = 'Syncing...';
+                
+                const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+                const response = await fetch(url);
+                const text = await response.text();
+                
+                // Parse Google Sheets JSON response
+                const jsonText = text.substring(47).slice(0, -2);
+                const data = JSON.parse(jsonText);
+                
+                const rows = data.table.rows;
+                const newItems = [];
+                
+                // Skip header row (index 0), start from 1
+                for (let i = 1; i < rows.length; i++) {
+                    const row = rows[i];
+                    if (!row.c) continue;
                     
-                    // Clean URL
-                    window.history.replaceState({}, document.title, window.location.pathname);
+                    const getValue = (index) => {
+                        return row.c[index] && row.c[index].v ? String(row.c[index].v) : '';
+                    };
+                    
+                    // Column mapping: 0:c1, 1:merchant, 2:purchase_date, 3:total, 
+                    // 4:ITEM NAME, 5:SKU, 6:COLOR, 7:SIZE
+                    const merchant = getValue(1);
+                    const priceStr = getValue(3);
+                    
+                    if (!merchant || !priceStr) continue;
+                    
+                    const price = parseFloat(priceStr);
+                    if (isNaN(price) || price <= 0) continue;
+                    
+                    newItems.push({
+                        merchant: merchant,
+                        itemName: getValue(4) || `${merchant} Item`,
+                        price: price,
+                        color: getValue(6) || '',
+                        size: getValue(7) || '',
+                        sku: getValue(5) || '',
+                        purchaseDate: getValue(2) || '',
+                        category: 'Other',
+                        imageUrl: ''
+                    });
                 }
+                
+                // Check if we have new items
+                const currentCount = newItems.length;
+                if (currentCount > lastSyncedCount && lastSyncedCount > 0) {
+                    const newCount = currentCount - lastSyncedCount;
+                    showNotification(`${newCount} new item${newCount > 1 ? 's' : ''} added!`);
+                }
+                
+                lastSyncedCount = currentCount;
+                items = newItems;
+                saveItems();
+                renderAll();
+                
+                document.getElementById('syncStatus').textContent = 'Auto-syncing every 60s';
+            } catch (error) {
+                console.error('Sync error:', error);
+                document.getElementById('syncStatus').textContent = 'Sync error - retrying...';
             }
         }
 
-        function addItem(item) {
-            // Check for duplicates
-            const isDuplicate = items.some(existing =>
-                existing.merchant === item.merchant &&
-                existing.sku === item.sku &&
-                existing.price === item.price &&
-                existing.purchaseDate === item.purchaseDate
-            );
-
-            if (!isDuplicate) {
-                items.push(item);
-                saveItems();
-                renderAll();
+        function saveItems() {
+            try {
+                localStorage.setItem('closetItems', JSON.stringify(items));
+                localStorage.setItem('lastSyncedCount', lastSyncedCount.toString());
+            } catch (error) {
+                console.error('Storage error:', error);
             }
         }
 
@@ -616,6 +477,10 @@
                 if (saved) {
                     items = JSON.parse(saved);
                 }
+                const savedCount = localStorage.getItem('lastSyncedCount');
+                if (savedCount) {
+                    lastSyncedCount = parseInt(savedCount);
+                }
             } catch (error) {
                 console.error('Error loading items:', error);
                 items = [];
@@ -623,26 +488,6 @@
             
             renderAll();
         }
-        function saveItems() {
-            try {
-                localStorage.setItem('closetItems', JSON.stringify(items));
-            } catch (error) {
-                console.error('Error saving items:', error);
-            }
-        }
-         function loadItems() {
-       try {
-           const saved = localStorage.getItem('closetItems');
-           if (saved) {
-               items = JSON.parse(saved);
-           }
-       } catch (error) {
-           console.error('Error loading items:', error);
-           items = [];
-       }
-       
-       renderAll();
-   }
 
         function renderAll() {
             renderStats();
@@ -702,20 +547,16 @@
                     <div class="empty-state">
                         <div class="empty-icon">👗</div>
                         <h3 style="color: #888; font-size: 1.5em; margin-bottom: 10px;">Your closet is ready</h3>
-                        <p style="color: #666;">Add items manually or they'll appear automatically from receipts!</p>
+                        <p style="color: #666;">New items will appear automatically from receipts!</p>
                     </div>
                 `;
                 return;
             }
             
-            document.getElementById('itemsGrid').innerHTML = filteredItems.map((item, index) => `
+            document.getElementById('itemsGrid').innerHTML = filteredItems.map(item => `
                 <div class="item-card">
-                    <button class="delete-btn" onclick="deleteItem(${items.indexOf(item)})" title="Delete">×</button>
                     <div class="category-badge">${item.category}</div>
-                    ${item.imageUrl ? 
-                        `<img src="${item.imageUrl}" alt="${item.itemName}" class="item-image">` : 
-                        `<div class="item-image-placeholder">👔</div>`
-                    }
+                    <div class="item-image-placeholder">👔</div>
                     <div class="item-content">
                         <div class="item-merchant">${item.merchant}</div>
                         <div class="item-name">${item.itemName}</div>
@@ -735,61 +576,6 @@
             renderAll();
         }
 
-        function openAddModal() {
-            document.getElementById('addModal').classList.add('active');
-        }
-
-        function closeAddModal() {
-            document.getElementById('addModal').classList.remove('active');
-            document.getElementById('addItemForm').reset();
-        }
-
-        async function deleteItem(index) {
-            if (confirm('Delete this item?')) {
-                const item = items[index];
-                items.splice(index, 1);
-                
-                try {
-                    const result =  window.storage.list('item:');
-                    if (result && result.keys) {
-                        for (const key of result.keys) {
-                            const itemResult =  window.storage.get(key);
-                            if (itemResult && itemResult.value) {
-                                const storedItem = JSON.parse(itemResult.value);
-                                if (JSON.stringify(storedItem) === JSON.stringify(item)) {
-                                     window.storage.delete(key);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error deleting:', error);
-                }
-                
-                renderAll();
-            }
-        }
-
-        document.getElementById('addItemForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const newItem = {
-                merchant: document.getElementById('merchant').value,
-                itemName: document.getElementById('itemName').value,
-                category: document.getElementById('category').value,
-                price: parseFloat(document.getElementById('price').value),
-                color: document.getElementById('color').value,
-                size: document.getElementById('size').value,
-                purchaseDate: new Date().toISOString().split('T')[0],
-                imageUrl: ''
-            };
-            
-            addItem(newItem);
-            closeAddModal();
-            showNotification('Item added!');
-        });
-
         function showNotification(message) {
             const notification = document.createElement('div');
             notification.className = 'notification';
@@ -808,7 +594,10 @@
 
         // Initialize
         loadItems();
-        checkUrlParams();
+        syncFromSheet();
+        
+        // Auto-sync every 60 seconds
+        setInterval(syncFromSheet, 60000);
     </script>
 </body>
-</html> 
+</html>
