@@ -604,34 +604,34 @@
             );
 
             if (!isDuplicate) {
-                items.push(item);
+                items.push(item);saveItems();
                 try {
-                     window.storage.set(`item:${Date.now()}`, JSON.stringify(item));
                 } catch (error) {
                     console.error('Storage error:', error);
                 }
                 renderAll();
             }
         }
-
-        function loadItems() {
-            try {
-                const result =  window.storage.list('item:');
-                if (result && result.keys && result.keys.length > 0) {
-                    items = [];
-                    for (const key of result.keys) {
-                        const itemResult =  window.storage.get(key);
-                        if (itemResult && itemResult.value) {
-                            items.push(JSON.parse(itemResult.value));
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading items:', error);
-            }
-            
-            renderAll();
-        }
+  function saveItems() {
+       try {
+           localStorage.setItem('closetItems', JSON.stringify(items));
+       } catch (error) {
+           console.error('Error saving items:', error);
+       }
+   }
+         function loadItems() {
+       try {
+           const saved = localStorage.getItem('closetItems');
+           if (saved) {
+               items = JSON.parse(saved);
+           }
+       } catch (error) {
+           console.error('Error loading items:', error);
+           items = [];
+       }
+       
+       renderAll();
+   }
 
         function renderAll() {
             renderStats();
