@@ -604,21 +604,32 @@
             );
 
             if (!isDuplicate) {
-                items.push(item);saveItems();
-                try {
-                } catch (error) {
-                    console.error('Storage error:', error);
-                }
+                items.push(item);
+                saveItems();
                 renderAll();
             }
         }
-  function saveItems() {
-       try {
-           localStorage.setItem('closetItems', JSON.stringify(items));
-       } catch (error) {
-           console.error('Error saving items:', error);
-       }
-   }
+
+        function loadItems() {
+            try {
+                const saved = localStorage.getItem('closetItems');
+                if (saved) {
+                    items = JSON.parse(saved);
+                }
+            } catch (error) {
+                console.error('Error loading items:', error);
+                items = [];
+            }
+            
+            renderAll();
+        }
+        function saveItems() {
+            try {
+                localStorage.setItem('closetItems', JSON.stringify(items));
+            } catch (error) {
+                console.error('Error saving items:', error);
+            }
+        }
          function loadItems() {
        try {
            const saved = localStorage.getItem('closetItems');
