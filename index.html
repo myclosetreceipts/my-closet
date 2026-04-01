@@ -594,7 +594,7 @@
             }
         }
 
-        async function addItem(item) {
+        function addItem(item) {
             // Check for duplicates
             const isDuplicate = items.some(existing =>
                 existing.merchant === item.merchant &&
@@ -614,7 +614,7 @@
             }
         }
 
-        async function loadItems() {
+        function loadItems() {
             try {
                 const result = await window.storage.list('item:');
                 if (result && result.keys && result.keys.length > 0) {
