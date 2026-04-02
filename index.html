@@ -814,52 +814,24 @@
                 `;
                 return;
             }
-            
             document.getElementById('itemsGrid').innerHTML = filteredItems.map((item, filteredIndex) => {
-                const actualIndex = items.indexOf(item);
-                return `
-                <div class="item-card">
-                    <button class="edit-btn" onclick="openEditModal(${actualIndex})">✎</button>
-                    <div class="category-badge" onclick="openEditModal(${actualIndex})">${item.category}</div>
-                    <div class="item-image-placeholder">—</div>
-                    <div class="item-content">
-                        <div class="item-merchant">${item.merchant}</div>
-                        <div class="item-name">${item.itemName}</div>
-                        <div class="item-details">
-                            ${item.color ? `<div class="detail-row"><span class="detail-label">Color</span><span class="detail-value">${item.color}</span></div>` : ''}
-                            ${item.size ? `<div class="detail-row"><span class="detail-label">Size</span><span class="detail-value">${item.size}</span></div>` : ''}
-                            ${item.purchaseDate ? `<div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">${item.purchaseDate}</span></div>` : ''}
-                        </div>
-                        <div class="item-price">$${parseFloat(item.price || 0).toFixed(2)}</div>
-                    </div>
-                </div>
-            `}).join('');
-        }
-
-        function setCategory(category) {
-            currentCategory = category;
-            renderAll();
-        }
-
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 2500);
-        }
-
-        document.getElementById('searchBox').addEventListener('input', function(e) {
-            searchTerm = e.target.value;
-            renderItems();
-        });
-
-        loadItems();
-        syncFromSheet();
-        setInterval(syncFromSheet, 60000);
-    </script>
-</body>
-</html>
+    const actualIndex = items.indexOf(item);
+    return `
+    <div class="item-card">
+        <div class="item-image-placeholder">—</div>
+        <div class="item-content">
+            <div class="item-merchant">${item.merchant}</div>
+            <div class="item-name">${item.itemName}</div>
+            <div class="item-details">
+                ${item.color ? `<div class="detail-row"><span class="detail-label">Color</span><span class="detail-value">${item.color}</span></div>` : ''}
+                ${item.size ? `<div class="detail-row"><span class="detail-label">Size</span><span class="detail-value">${item.size}</span></div>` : ''}
+                ${item.purchaseDate ? `<div class="detail-row"><span class="detail-label">Date</span><span class="detail-value">${item.purchaseDate}</span></div>` : ''}
+            </div>
+            <div class="item-price">$${parseFloat(item.price || 0).toFixed(2)}</div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="edit-btn" onclick="openEditModal(${actualIndex})" style="position: static; width: auto; flex: 1; padding: 12px;">Edit ✎</button>
+                <button class="category-badge" onclick="openEditModal(${actualIndex})" style="position: static; flex: 1; padding: 12px; cursor: pointer;">${item.category}</button>
+            </div>
+        </div>
+    </div>
+`}).join('');
